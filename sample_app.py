@@ -3,31 +3,42 @@ from flask import request
 from flask import render_template
 from flask import redirect
 from flask import url_for
+from pymongo import MongoClient
+from bson import ObjectId
 
 app = Flask(__name__)
 
-data = []
+client = MongoClient("mongodb://database:27017/")
+database = client["msapp"]
+collection = database["router-informaion"]
 
 @app.route("/")
 def main():
+    data = collection.find()
     return render_template("index.html", data=data)
 
 @app.route('/add', methods=['POST'])
-def add_comment():
-    yourname = request.form.get("yourname")
-    message = request.form.get("message")
+def add_router():
+    ip = request.form.get("IP")
+    username = request.form.get("username")
+    password = request.form.get("password")
 
-    if (yourname and message):
-        data.append({"yourname": yourname, "message": message})
-    print(data)
+    if (ip and username and password):
+        collection.insert_one({
+            "ip": ip,
+            "username": username,
+            "password": password
+        })
     return redirect("/")
 
 @app.route('/delete', methods=['POST'])
-def delete_comment():
+def delete_router():
+    data = collection.find()
+
     try:
-        idx = int(request.form.get("idx"))
-        if 0 <= idx < len(data):
-            data.pop(idx)
+        idx = request.form.get("idx")
+        query = {"_id": ObjectId(idx)}
+        collection.delete_one(query)
     except Exception:
         pass
     return redirect(url_for("main"))

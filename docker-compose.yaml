@@ -6,4 +6,24 @@ services:
     container_name: msapp-container
     volumes:
       - .:/app  
+    depends_on: 
+      - database
+    networks:
+      - msapp-network
+  
+  database:
+    image: mongo:6
+    ports:
+      - 27017:27017
+    container_name: mongodb-container
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - msapp-network
+
+volumes:
+  mongo-data:
+
+networks:
+  msapp-network:
     
