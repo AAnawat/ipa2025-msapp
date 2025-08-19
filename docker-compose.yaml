@@ -1,0 +1,9 @@
+services:
+  website:
+    image: msapp
+    ports:
+      - 8080:8080
+    container_name: msapp-container
+    volumes:
+      - .:/app  
+    
