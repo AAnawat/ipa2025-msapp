@@ -1,13 +1,25 @@
 from flask import Flask
 from flask import request
 from flask import render_template
+from flask import redirect
 
-sample = Flask(__name__)
+app = Flask(__name__)
 
-@sample.route("/")
+data = []
+
+@app.route("/")
 def main():
     return render_template("index.html")
 
+@app.route('/add', methods=['POST'])
+def add_router():
+    yourname = request.form.get("yourname")
+    message = request.form.get("message")
+
+    if (yourname and message):
+        data.append({yourname, message})       
+    return redirect("/")
+
 if __name__ == "__main__":
-    sample.run(host="0.0.0.0", port=8080)
+    app.run(host="0.0.0.0", port=8080)
 
