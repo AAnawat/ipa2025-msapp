@@ -5,11 +5,15 @@ from flask import redirect
 from flask import url_for
 from pymongo import MongoClient
 from bson import ObjectId
+import os
 
 app = Flask(__name__)
 
-client = MongoClient("mongodb://database:27017/")
-database = client["msapp"]
+MONGO_URI = os.environ.get("MONGO_URI")
+DB_NAME = os.environ.get("DB_NAME")
+
+client = MongoClient(MONGO_URI)
+database = client[DB_NAME]
 collection = database["router-informaion"]
 
 @app.route("/")

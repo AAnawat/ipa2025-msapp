@@ -1,21 +1,28 @@
 services:
   website:
-    image: msapp
+    build:
+      context: ./website
+      dockerfile: Dockerfile
+    container_name: msapp-container
     ports:
       - 8080:8080
-    container_name: msapp-container
-    volumes:
-      - .:/app  
-    depends_on: 
-      - database
+    env_file:
+      - .env
+    environment:
+      MONGO_URI: "mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@database:27017/"
+      DB_NAME: "msapp"
     networks:
       - msapp-network
-  
+    depends_on: 
+      - database
+
   database:
     image: mongo:6
+    container_name: mongodb-container
     ports:
       - 27017:27017
-    container_name: mongodb-container
+    env_file:
+      - .env
     volumes:
       - mongo-data:/data/db
     networks:
