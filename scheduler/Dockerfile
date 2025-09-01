@@ -6,6 +6,4 @@ COPY . .
 
 RUN pip install -r requirements.txt
 
-EXPOSE 8080
-
-CMD ["python", "sample_app.py"]
+CMD ["python", "scheduler.py"]

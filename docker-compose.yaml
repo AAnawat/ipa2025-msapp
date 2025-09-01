@@ -7,14 +7,36 @@ services:
     ports:
       - 8080:8080
     env_file:
-      - .env
-    environment:
-      MONGO_URI: "mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@database:27017/"
-      DB_NAME: "msapp"
+      - ./environments/info.env
     networks:
       - msapp-network
     depends_on: 
       - database
+
+  scheduler:
+    build:
+      context: ./scheduler
+      dockerfile: Dockerfile
+    container_name: scheduler-container
+    env_file:
+      - ./environments/info.env
+      - ./environments/rabbitmq.env
+    networks:
+      - msapp-network
+    depends_on:
+      - rabbitmq
+      - database
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitMQ-container
+    ports:
+      - 5672:5672
+      - 15672:15672
+    env_file:
+      - ./environments/rabbitmq.env
+    networks:
+      - msapp-network
 
   database:
     image: mongo:6
@@ -22,7 +44,7 @@ services:
     ports:
       - 27017:27017
     env_file:
-      - .env
+      - ./environments/database.env
     volumes:
       - mongo-data:/data/db
     networks:
