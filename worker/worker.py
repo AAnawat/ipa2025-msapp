@@ -13,6 +13,7 @@ def check_interface(ch, method, properties, body):
             result = connection.send_command("show ip int br", use_textfsm=True)
     except Exception as e:
         print("No router avalible.")
+        return;
 
     upload_interface(info["ip"], result)
 

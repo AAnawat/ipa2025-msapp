@@ -50,6 +50,20 @@ services:
     networks:
       - msapp-network
 
+  worker:
+    build:
+      context: ./worker
+      dockerfile: Dockerfile
+    container_name: worker-container
+    env_file:
+      - ./environments/info.env
+      - ./environments/rabbitmq.env
+    networks:
+      - msapp-network
+    depends_on:
+      - rabbitmq
+      - database
+
 volumes:
   mongo-data:
 
