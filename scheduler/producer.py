@@ -21,7 +21,6 @@ class rabbitCon:
         channel = self.connection.channel()
         return channel
 
-
     def __exit__(self, type, value, traceback):
         self.connection.close()
 
@@ -39,7 +38,11 @@ def produce(ip, message):
                             routing_key=inter_key
                            )
 
-        channel.basic_publish(exchange="jobs", routing_key=inter_key, body=message)
+        channel.basic_publish(
+                exchange="jobs",
+                routing_key=inter_key,
+                body=message
+            )
 
 
 if __name__ == "__main__":

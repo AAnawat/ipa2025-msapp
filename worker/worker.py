@@ -13,9 +13,12 @@ def check_interface(ch, method, properties, body):
 
     try:
         with r1.makeConnection() as connection:
-            result = connection.send_command("show ip int br", use_textfsm=True)
+            result = connection.send_command(
+                    "show ip int br",
+                    use_textfsm=True
+                )
     except Exception as e:
-        print("No router avalible.")
+        print("No router avalible.", e)
         return None
 
     upload_interface(info["ip"], result)
@@ -40,7 +43,6 @@ def work():
         except Exception as e:
             print("Error occur.", e)
             time.sleep(10)
-
 
     channel.basic_qos(prefetch_count=1)
     channel.basic_consume(
