@@ -17,10 +17,12 @@ database = client[DB_NAME]
 collection_router = database["router-informaion"]
 collection_interface = database["interface_status"]
 
+
 @app.route("/")
 def main():
     data = collection_router.find()
     return render_template("index.html", data=data)
+
 
 @app.route('/add', methods=['POST'])
 def add_router():
@@ -36,10 +38,9 @@ def add_router():
         })
     return redirect("/")
 
+
 @app.route('/delete', methods=['POST'])
 def delete_router():
-    data = collection_router.find()
-
     try:
         idx = request.form.get("idx")
         query = {"_id": ObjectId(idx)}
@@ -48,6 +49,7 @@ def delete_router():
         pass
     return redirect(url_for("main"))
 
+
 @app.route('/router/<ip>')
 def get_router_interface(ip):
     records = collection_interface.find({"router_ip": ip})
@@ -55,8 +57,11 @@ def get_router_interface(ip):
     if not (records):
         return "<h1>No information yet.</h1>"
 
-    return render_template("router_interface.html", data={"ip": ip, "records": records})
+    return render_template(
+            "router_interface.html",
+            data={"ip": ip, "records": records}
+        )
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
-

@@ -1,9 +1,11 @@
-import os, datetime
+import os
+import datetime
 
 from pymongo import MongoClient
 
 MONGO_URI = os.environ.get("MONGO_URI")
 DB_NAME = os.environ.get("DB_NAME")
+
 
 def upload_interface(ip, status):
     client = MongoClient(MONGO_URI)
