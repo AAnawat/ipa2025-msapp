@@ -24,22 +24,20 @@ def main():
     return render_template("index.html", data=data)
 
 
-@app.route('/add', methods=['POST'])
+@app.route("/add", methods=["POST"])
 def add_router():
     ip = request.form.get("IP")
     username = request.form.get("username")
     password = request.form.get("password")
 
-    if (ip and username and password):
-        collection_router.insert_one({
-            "ip": ip,
-            "username": username,
-            "password": password
-        })
+    if ip and username and password:
+        collection_router.insert_one(
+            {"ip": ip, "username": username, "password": password}
+        )
     return redirect("/")
 
 
-@app.route('/delete', methods=['POST'])
+@app.route("/delete", methods=["POST"])
 def delete_router():
     try:
         idx = request.form.get("idx")
@@ -50,17 +48,14 @@ def delete_router():
     return redirect(url_for("main"))
 
 
-@app.route('/router/<ip>')
+@app.route("/router/<ip>")
 def get_router_interface(ip):
     records = collection_interface.find({"router_ip": ip})
 
     if not (records):
         return "<h1>No information yet.</h1>"
 
-    return render_template(
-            "router_interface.html",
-            data={"ip": ip, "records": records}
-        )
+    return render_template("router_interface.html", data={"ip": ip, "records": records})
 
 
 if __name__ == "__main__":

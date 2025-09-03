@@ -13,10 +13,7 @@ def check_interface(ch, method, properties, body):
 
     try:
         with r1.makeConnection() as connection:
-            result = connection.send_command(
-                    "show ip int br",
-                    use_textfsm=True
-                )
+            result = connection.send_command("show ip int br", use_textfsm=True)
     except Exception as e:
         print("No router avalible.", e)
         return None
@@ -26,16 +23,12 @@ def check_interface(ch, method, properties, body):
 
 def work():
     credential = pika.PlainCredentials(
-            os.environ.get("RABBITMQ_DEFAULT_USER"),
-            os.environ.get("RABBITMQ_DEFAULT_PASS")
-        )
+        os.environ.get("RABBITMQ_DEFAULT_USER"), os.environ.get("RABBITMQ_DEFAULT_PASS")
+    )
     for _ in range(10):
         try:
             pikaCon = pika.BlockingConnection(
-                pika.ConnectionParameters(
-                        host="rabbitmq",
-                        credentials=credential
-                    )
+                pika.ConnectionParameters(host="rabbitmq", credentials=credential)
             )
             channel = pikaCon.channel()
             channel.queue_declare("router_jobs")
@@ -46,10 +39,8 @@ def work():
 
     channel.basic_qos(prefetch_count=1)
     channel.basic_consume(
-            queue='router_jobs',
-            on_message_callback=check_interface,
-            auto_ack=True
-        )
+        queue="router_jobs", on_message_callback=check_interface, auto_ack=True
+    )
     channel.start_consuming()
 
 

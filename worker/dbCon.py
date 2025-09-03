@@ -13,10 +13,8 @@ def upload_interface(ip, status):
     interface = database["interface_status"]
 
     current = datetime.datetime.now(datetime.timezone.utc).isoformat()
-    result = interface.insert_one({
-        "router_ip": ip,
-        "timestamp": current,
-        "interfaces": status
-    })
+    result = interface.insert_one(
+        {"router_ip": ip, "timestamp": current, "interfaces": status}
+    )
 
     return result
