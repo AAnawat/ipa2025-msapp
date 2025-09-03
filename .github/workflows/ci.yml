@@ -5,6 +5,7 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   ci:
@@ -42,9 +43,9 @@ jobs:
 
     - name: Build & Push Docker Images
       run: |
-        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/msapp-worker ./worker/Dockerfile
-        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/msapp-scheduler ./scheduler/Dockerfile
-        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/msapp-website ./website/Dockerfile
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/msapp-worker ./worker/
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/msapp-scheduler ./scheduler/
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/msapp-website ./website/
 
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/msapp-worker
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/msapp-scheduler
