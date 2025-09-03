@@ -1,0 +1,9 @@
+services:
+  website:
+    image: ${DOCKERHUB_USERNAME}/msapp-website
+  
+  scheduler:
+    image: ${DOCKERHUB_USERNAME}/msapp-scheduler
+  
+  worker:
+    image: ${DOCKERHUB_USERNAME}/msapp-worker
