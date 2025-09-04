@@ -16,6 +16,6 @@ class Rcontroller:
 
 
 if __name__ == "__main__":
-    controller = Rcontroller("10.30.6.19")
+    controller = Rcontroller("10.30.6.189")
     with controller.makeConnection() as connection:
         print(connection.send_command("show ip int br", use_textfsm=True))

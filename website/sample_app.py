@@ -50,11 +50,11 @@ def delete_router():
 
 @app.route("/router/<ip>")
 def get_router_interface(ip):
-    records = collection_interface.find({"router_ip": ip})
+    records = list(collection_interface.find({"router_ip": ip}).limit(5))
 
-    if not (records):
+    if (len(records) == 0):
         return "<h1>No information yet.</h1>"
-
+    
     return render_template("router_interface.html", data={"ip": ip, "records": records})
 
 

@@ -54,7 +54,6 @@ services:
     build:
       context: ./worker
       dockerfile: Dockerfile
-    container_name: worker-container
     env_file:
       - ./environments/info.env
       - ./environments/rabbitmq.env
@@ -63,6 +62,8 @@ services:
     depends_on:
       - rabbitmq
       - database
+    deploy:
+      replicas: 3
 
 volumes:
   mongo-data:
