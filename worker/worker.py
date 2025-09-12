@@ -28,7 +28,10 @@ def work():
     for _ in range(10):
         try:
             pikaCon = pika.BlockingConnection(
-                pika.ConnectionParameters(host=os.environ.get("RABBITMQ_URI"), credentials=credential)
+                pika.ConnectionParameters(
+                    host=os.environ.get("RABBITMQ_URI"),
+                    redentials=credential
+                )
             )
             channel = pikaCon.channel()
             channel.queue_declare("router_jobs")
