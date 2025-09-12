@@ -35,4 +35,4 @@ def produce(ip, message):
 
 
 if __name__ == "__main__":
-    produce("rabbitmq", "192.168.1.1")
+    produce(os.environ.get("RABBITMQ_URI"), "192.168.1.1")
