@@ -29,8 +29,7 @@ def work():
         try:
             pikaCon = pika.BlockingConnection(
                 pika.ConnectionParameters(
-                    host=os.environ.get("RABBITMQ_URI"),
-                    redentials=credential
+                    host=os.environ.get("RABBITMQ_URI"), redentials=credential
                 )
             )
             channel = pikaCon.channel()
